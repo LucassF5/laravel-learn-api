@@ -45,4 +45,13 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    protected static function booted(): void
+    {
+        static::creating(function ($user) {
+            if(empty($user->uuid_code)) {
+                $user->uuid_code = (string) Str::uuid();
+            }
+        });
+    }
 }
